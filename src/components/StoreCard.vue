@@ -2,7 +2,6 @@
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 
-const store = useStore()
 const props = defineProps({
   storeItem: {
     type: Object,
@@ -10,14 +9,6 @@ const props = defineProps({
   }
 })
 
-// Add this computed property to highlight the selected store
-const isSelected = computed(() => 
-  store.state.selectedStore?.id === props.storeItem.id
-)
-
-const selectStore = () => {
-  store.dispatch('selectStore', props.storeItem)
-}
 
 // Create the optimal Google Maps URL for pinned locations
 const googleMapsUrl = computed(() => {
@@ -47,33 +38,10 @@ const googleMapsUrl = computed(() => {
   }
 })
 
-// Create Google Maps Directions URL
-const directionsUrl = computed(() => {
-  const storeName = props.storeItem.content?.Name || 'Store Location';
-  
-  // For directions, we'll use coordinates if available for more precision
-  if (props.storeItem.content?.Latitude && props.storeItem.content?.Longitude) {
-    const lat = props.storeItem.content.Latitude;
-    const lng = props.storeItem.content.Longitude;
-    
-    // Use the traditional directions format with store name as the destination name
-    return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&destination_name=${encodeURIComponent(storeName)}`;
-  } else {
-    const destination = [
-      props.storeItem.content?.Address,
-      props.storeItem.content?.City,
-      props.storeItem.content?.State,
-      props.storeItem.content?.Zip
-    ].filter(Boolean).join(', ');
-    
-    // For address-based directions
-    return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}&destination_name=${encodeURIComponent(storeName)}`;
-  }
-})
 </script>
 
 <template>
-  <div class="p-4 border-b border-gray-200 hover:bg-blue-50 transition duration-150">
+  <div class="p-4 border-b border-gray-200">
     <h3 class="text-lg font-semibold text-gray-900">{{ storeItem.content?.Name }}</h3>
     <h4 class="text-base font-medium text-gray-800 capitalize">{{ storeItem.content?.Category }}</h4>
     <div class="text-sm text-gray-600 flex flex-row">
