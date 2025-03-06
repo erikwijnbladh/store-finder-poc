@@ -85,7 +85,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="bg-white p-4 rounded-lg shadow-md">
+  <div class="bg-white p-4 rounded-lg shadow-md text-black">
     <!-- Entirely vertical layout on mobile, horizontal on larger screens -->
     <div class="flex flex-col space-y-4">
       <!-- Search input with improved styling -->
