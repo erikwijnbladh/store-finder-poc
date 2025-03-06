@@ -10,7 +10,8 @@ export default createStore({
     selectedStore: null,
     filters: {
       searchQuery: '',
-      category: ''
+      category: '',
+      city: ''
     },
     currentLanguage: 'sv_se',
     availableLanguages: [
@@ -92,6 +93,12 @@ export default createStore({
       if (state.filters.category) {
         result = result.filter(store => 
           store.content?.Category === state.filters.category
+        )
+      }
+      
+      if (state.filters.city) {
+        result = result.filter(store => 
+          store.content?.City === state.filters.city
         )
       }
       

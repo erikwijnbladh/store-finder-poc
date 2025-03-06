@@ -5,6 +5,7 @@ import { useStore } from 'vuex'
 const store = useStore()
 const searchQuery = ref('')
 const selectedCategory = ref('')
+const selectedCity = ref('')
 
 // Temporary model values to avoid immediate filtering while typing
 const tempSearchQuery = ref('')
@@ -14,6 +15,13 @@ const categories = computed(() => {
   const allStores = store.state.stores
   const uniqueCategories = [...new Set(allStores.map(store => store.content?.Category).filter(Boolean))]
   return uniqueCategories.sort()
+})
+
+// Get unique cities from stores
+const cities = computed(() => {
+  const allStores = store.state.stores
+  const uniqueCities = [...new Set(allStores.map(store => store.content?.City).filter(Boolean))]
+  return uniqueCities.sort()
 })
 
 // Debounce search to avoid too many filter operations while typing
@@ -39,6 +47,12 @@ const applyFilters = () => {
   } else {
     store.dispatch('updateFilter', { key: 'category', value: '' })
   }
+  
+  if (selectedCity.value) {
+    store.dispatch('updateFilter', { key: 'city', value: selectedCity.value })
+  } else {
+    store.dispatch('updateFilter', { key: 'city', value: '' })
+  }
 }
 
 // When category changes, update filters
@@ -47,6 +61,11 @@ const handleCategoryChange = (event) => {
   applyFilters()
 }
 
+// When city changes, update filters
+const handleCityChange = (event) => {
+  selectedCity.value = event.target.value
+  applyFilters()
+}
 
 onMounted(() => {
   // Initialize filters from store state if they exist
@@ -57,6 +76,10 @@ onMounted(() => {
   
   if (store.state.filters.category) {
     selectedCategory.value = store.state.filters.category
+  }
+  
+  if (store.state.filters.city) {
+    selectedCity.value = store.state.filters.city
   }
 })
 </script>
@@ -85,27 +108,50 @@ onMounted(() => {
         </div>
       </div>
       
-      <!-- Category filter -->
-      <div>
-        <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Filter by Category</label>
-        <select
-          id="category"
-          v-model="selectedCategory"
-          @change="handleCategoryChange"
-          class="block w-full py-3 pl-3 pr-10 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base"
-        >
-          <option value="">All Categories</option>
-          <option 
-            v-for="category in categories" 
-            :key="category" 
-            :value="category"
-            class="py-1"
+      <!-- Filter grid for category and city -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Category filter -->
+        <div>
+          <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Filter by Category</label>
+          <select
+            id="category"
+            v-model="selectedCategory"
+            @change="handleCategoryChange"
+            class="block w-full py-3 pl-3 pr-10 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base"
           >
-            {{ category }}
-          </option>
-        </select>
+            <option value="">All Categories</option>
+            <option 
+              v-for="category in categories" 
+              :key="category" 
+              :value="category"
+              class="py-1"
+            >
+              {{ category }}
+            </option>
+          </select>
+        </div>
+        
+        <!-- City filter -->
+        <div>
+          <label for="city" class="block text-sm font-medium text-gray-700 mb-1">Filter by City</label>
+          <select
+            id="city"
+            v-model="selectedCity"
+            @change="handleCityChange"
+            class="block w-full py-3 pl-3 pr-10 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base"
+          >
+            <option value="">All Cities</option>
+            <option 
+              v-for="city in cities" 
+              :key="city" 
+              :value="city"
+              class="py-1"
+            >
+              {{ city }}
+            </option>
+          </select>
+        </div>
       </div>
-      
     </div>
     
     <!-- Horizontal layout on medium and larger screens -->

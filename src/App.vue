@@ -19,15 +19,11 @@ const getLocalizedPath = (path) => {
   <div class="h-screen w-screen flex flex-col">
     <header v-if="!isStoreFinder" class="bg-white shadow">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <img alt="Vue logo" class="h-16 mx-auto lg:mx-0" src="@/assets/logo.svg" />
 
         <div class="mt-4">
-          <HelloWorld msg="You did it!" />
 
           <nav class="mt-4 flex justify-center lg:justify-start gap-4">
-            <RouterLink :to="getLocalizedPath('/')" class="text-gray-700 hover:text-blue-600 font-medium px-3 py-2 rounded-md hover:bg-gray-50">Home</RouterLink>
-            <RouterLink :to="getLocalizedPath('/about')" class="text-gray-700 hover:text-blue-600 font-medium px-3 py-2 rounded-md hover:bg-gray-50">About</RouterLink>
-            <RouterLink :to="getLocalizedPath('/stores')" class="text-gray-700 hover:text-blue-600 font-medium px-3 py-2 rounded-md hover:bg-gray-50">Store Finder</RouterLink>
+            <RouterLink :to="getLocalizedPath('/stores')" class="min-w-48 text-gray-700 hover:text-blue-600 font-medium px-3 py-2 rounded-md hover:bg-gray-50">Store Finder</RouterLink>
           </nav>
         </div>
       </div>

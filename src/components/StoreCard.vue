@@ -76,7 +76,14 @@ const directionsUrl = computed(() => {
   <div class="p-4 border-b border-gray-200 hover:bg-blue-50 transition duration-150">
     <h3 class="text-lg font-semibold text-gray-900">{{ storeItem.content?.Name }}</h3>
     <h4 class="text-base font-medium text-gray-800 capitalize">{{ storeItem.content?.Category }}</h4>
-    
+    <div class="text-sm text-gray-600 flex flex-row">
+      <!-- add clock svg with opening hours -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 my-auto flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <p>{{ storeItem.content?.Hours }}</p>
+
+    </div>
     <!-- Clickable address with enhanced Google Maps pin URL -->
     <a 
       :href="googleMapsUrl" 
